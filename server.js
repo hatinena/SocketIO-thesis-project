@@ -37,9 +37,16 @@ io.on('connection', socket => {
         listView = gameData;
     });
 
+   
     
+    socket.on('chatmsg',msg=>{
+        io.emit("sendChatMsg",msg);
+    });
  
 });
+
+
+
 const PORT =  process.env.PORT || 8080;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

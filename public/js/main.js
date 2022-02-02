@@ -17,6 +17,13 @@ socket.on('gameHasStarted',sentgameData=>{
 receivedGameData = sentgameData;
 });
 
+socket.on("sendChatMsg",msg=>{
+    console.log(msg);
+    var node = document.createElement("li");
+    var textnode = document.createTextNode(msg);
+    node.appendChild(textnode);
+    document.getElementById("receivedMessages").appendChild(node);
+});
 
 
 //function to decode html text
@@ -81,8 +88,25 @@ function htmlDecode(value) {
     });
 
 
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
 
 
+    function sendMessage(){
+       
+       
+        msg = document.getElementById("sendMessage").value;
+        socket.emit("chatmsg",msg);
+      
+
+        
+
+    }
 
 
 
