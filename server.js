@@ -5,45 +5,84 @@ const express = require('express');
 const socketio = require('socket.io');
 
 
+
+
+
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+var listView;
 var hasGameStarted = false; //game has not started
+
+var userList = {};
 //Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 //Run when client connects
 io.on('connection', socket => {
- 
+  
+  
+  //receive when game has started
+  socket.on('startGameBool',GameStarted=>{
+    hasGameStarted = GameStarted;
+    io.emit('sendHasGameStarted', hasGameStarted);
+  });
+
+
 
 //send if game has started
- socket.emit('sendHasGameStarted', hasGameStarted);
+
+
+ socket.on('startGameForAll',startgame =>{
+  io.emit('startGameAll',"startgame");
+ });
+
+
 
  //if game has started, send questions from server
- if(hasGameStarted==true){
-    socket.emit('gameHasStarted',listView);
-   }
+ 
+ socket.on('resetGame',bool=>{
+   hasGameStarted = bool;
+   console.log(hasGameStarted);
+   io.emit('refresh','refresh');
+ })
 
 
-   //receive when game has started
-    socket.on('startGame',GameStarted=>{
-        hasGameStarted = GameStarted;
-
-    });
+ socket.on('userPoints', data =>{
+  userList[data.user] = data.points;
+  setTimeout(() => {  socket.emit('userList',userList);}, 500);
+  
+ });
 
    
 
     //receive questions from client that started game
-    socket.on('gameData',gameData=>{
-        listView = gameData;
-    });
+   
+
+   
 
    
     
     socket.on('chatmsg',msg=>{
         io.emit("sendChatMsg",msg);
     });
- 
+    
+
+  
+    socket.on('gameData',gameData=>{
+      console.log("server received gameData")
+      listView = gameData;
+      if(listView){
+        io.emit('gameHasStarted',listView);
+      }
+    });
+
+       
+
 });
+
 
 
 

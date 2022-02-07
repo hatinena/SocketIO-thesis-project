@@ -1,3 +1,4 @@
+
 var timeLeft = 19;
 var elem = document.getElementById("timer");
 
