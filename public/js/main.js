@@ -105,14 +105,14 @@ function htmlDecode(value) {
 var listView = document.createElement('div');
 listView.className = "questionlist";
 function startGame(){
-
+   
 document.getElementById("mypoints").innerText = "My points: " + myPoints
    
    // if(hasGameStarted ==true){
    //  console.log("GAME HAS ALREADY STARTED"); 
     // return;
   //  }
-  
+
 
 $.getJSON("https://opentdb.com/api.php?amount="+document.getElementById("questionsAmount").value+"", function(result){
 
@@ -254,6 +254,7 @@ function addPoints(){
     }
     else{
         console.log("incorrect answer");
+        socket.emit('userPoints',{"user":user, "points":myPoints});
     }
 
 } 
