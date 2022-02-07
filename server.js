@@ -45,6 +45,7 @@ io.on('connection', socket => {
  
  socket.on('resetGame',bool=>{
    hasGameStarted = bool;
+   userList = [];
    console.log(hasGameStarted);
    io.emit('refresh','refresh');
  })
