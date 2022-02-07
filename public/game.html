@@ -1,0 +1,53 @@
+<html>
+
+<body>
+
+
+
+	
+	
+		<h1>Quiz Game</h1>
+		<ul id="users"></ul>
+		
+	  <p>How many questions?</p>
+	  <input id="questionsAmount">
+	
+	<div id="questionList"></div>
+
+
+
+
+
+
+	<button id="startbtn" onclick="startGame()">Start Game</button>
+	<button onclick="resetGame()">Reset Game</button>
+
+	<h1 id="mypoints"></h1>
+
+	<div id ="users"> </div>
+
+	<div id="timer"></div>
+
+
+
+	<div class="chat-popup" id="myForm">
+		<div class="form-container">
+		  <h1>Chat</h1>
+	  
+		  <label><b>Messages</b></label>
+		  <ul id="receivedMessages"></ul>
+		  <textarea  id="sendMessage" placeholder="Type message.."></textarea>
+	  
+		  <button class="btn" onclick="sendMessage()">Send</button>
+		  <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+		</div>
+	  </div>
+	  <button class="open-button" onclick="openForm()">Chat</button>
+
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	  <script src="/socket.io/socket.io.js"></script>
+	  <script src="js/main.js"></script>
+	  <link rel="stylesheet" href="css/style.css">  
+  </body>
+  </html>
