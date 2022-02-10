@@ -1,4 +1,4 @@
-
+document.getElementById("startbtn").disabled = true;
 var timeLeft = 19;
 var elem = document.getElementById("timer");
 
@@ -18,7 +18,7 @@ const socket = io();
    
 //boolean check if game has started
 var hasGameStarted = false;
-
+var category;
 //Data to send to other clients after first person starts the game
 var receivedGameData;
 var myPoints = 0;
@@ -84,12 +84,23 @@ socket.on('userList', userList=>{
 //receive data if game has started
 
 
-socket.on("sendChatMsg",msg=>{
-    console.log(msg);
+socket.on("sendChatMsg",msgobj=>{
+    console.log(msgobj);
     var node = document.createElement("li");
-    var textnode = document.createTextNode(msg);
-    node.appendChild(textnode);
+    node.className  = "chatList";
+    var elemnode = document.createElement("div");
+    elemnode.className = "chatMsgParent"
+    var usernode = document.createElement("div");
+    usernode.innerText = msgobj.user;
+    usernode.className = "chatMsgUser";
+    var textnode = document.createElement("div");
+    textnode.className = "chatMsg";
+    textnode.innerText = msgobj.msg;
+    elemnode.appendChild(usernode);
+    elemnode.appendChild(textnode);
+    node.appendChild(elemnode);
     document.getElementById("receivedMessages").appendChild(node);
+   // user+ ": " +msg
 });
 
 
@@ -105,16 +116,21 @@ function htmlDecode(value) {
 var listView = document.createElement('div');
 listView.className = "questionlist";
 function startGame(){
-   
+console.log(document.getElementById("questionsAmount").value);
 document.getElementById("mypoints").innerText = "My points: " + myPoints
    
    // if(hasGameStarted ==true){
    //  console.log("GAME HAS ALREADY STARTED"); 
     // return;
   //  }
-
-
-$.getJSON("https://opentdb.com/api.php?amount="+document.getElementById("questionsAmount").value+"", function(result){
+if( document.getElementById("categories").value != "any" && hasGameStarted == false){
+    category  = "&category="+ document.getElementById("categories").value;
+} 
+else{
+   category = "";
+}
+console.log(category) ;
+$.getJSON("https://opentdb.com/api.php?amount="+document.getElementById("questionsAmount").value+category+"", function(result){
 
 console.log(hasGameStarted);  
 if(hasGameStarted==false){
@@ -174,12 +190,20 @@ for (let i=0; i<data.length+1; i++) {
 
 
 function countdown() {
+    if(timeLeft == 15){
+        document.getElementById("yourAnswer").innerText ="";
+        }
     if (timeLeft == 0) {
       timeLeft =19;
-    } else {
+    }
+    
+    else {
       elem.innerHTML = timeLeft + ' seconds remaining';
       timeLeft--;
     }
+       
+    
+
   }
 
 function addQuestion(i){
@@ -250,10 +274,14 @@ function addPoints(){
     if (val == "correct"){
         myPoints++;
         document.getElementById("mypoints").innerText = "My points: " + myPoints;
+        document.getElementById("yourAnswer").innerText = "You answered correctly";
+        document.getElementById("yourAnswer").style.color = "green";
         socket.emit('userPoints',{"user":user, "points":myPoints});
     }
     else{
         console.log("incorrect answer");
+        document.getElementById("yourAnswer").innerText = "You answered incorrectly";
+        document.getElementById("yourAnswer").style.color = "red";
         socket.emit('userPoints',{"user":user, "points":myPoints});
     }
 
@@ -271,13 +299,36 @@ function addPoints(){
     function sendMessage(){
        
        
-        msg = document.getElementById("sendMessage").value;
-        socket.emit("chatmsg",msg);
-      
+        msgobj = {user:user,msg:document.getElementById("sendMessage").value};
+        socket.emit("chatmsg",msgobj);
+        document.getElementById("sendMessage").value ="";
+        document.getElementById("sendMessage").focus();
 
         
 
     }
+
+         document.getElementById("sendMessage").addEventListener("keyup", function(event) {
+        //13 is enter
+       
+        if (event.key=== "Enter") {
+         
+          document.getElementById("clicksend").click();
+        }
+      });
+
+      
+      document.getElementById("questionsAmount").addEventListener("keyup", function(event) {
+        
+       
+        if (document.getElementById("questionsAmount").value >50 || document.getElementById("questionsAmount").value < 1) {
+         
+            document.getElementById("startbtn").disabled = true;
+        }
+        else{
+            document.getElementById("startbtn").disabled = false;
+        }
+      });
 
 
 
