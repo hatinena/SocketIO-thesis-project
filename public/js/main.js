@@ -13,7 +13,7 @@ const urlParams = new URLSearchParams(queryString);
 const user = urlParams.get('username');
 
 const socket = io();
-
+var receivedRoundTime;
 
 
 
@@ -38,6 +38,11 @@ socket.on('refresh', refresh=>{
     }
     reloaded =true;
    
+});
+
+socket.on('receiveRoundTime',rtime=>{
+    receivedRoundTime = rtime;
+
 });
 
 socket.on('gameHasStarted',sentgameData=>{
@@ -121,9 +126,18 @@ function htmlDecode(value) {
 var listView = document.createElement('div');
 listView.className = "questionlist";
 function startGame(){
+    
+
+
     inputRoundLength = parseInt(document.getElementById("selectRoundTime").value);
     roundTime = inputRoundLength *1000;
-    timeLeft = inputRoundLength-1;
+    socket.emit("roundTime",roundTime);
+    if(hasGameStarted == true){
+        roundTime = receivedRoundTime;
+    }
+    timeLeft = (roundTime/1000)-1;
+    
+    
 
 console.log(document.getElementById("questionsAmount").value);
 document.getElementById("mypoints").innerText = "My points: " + myPoints

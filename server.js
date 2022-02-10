@@ -57,6 +57,10 @@ io.on('connection', socket => {
   
  });
 
+ socket.on('roundTime', data =>{
+  io.emit('receiveRoundTime',data);
+ });
+
    
 
     //receive questions from client that started game
