@@ -1,7 +1,10 @@
 document.getElementById("startbtn").disabled = true;
-var timeLeft = 19;
-var elem = document.getElementById("timer");
+var inputRoundLength;
+var roundTime;
+var timeLeft;
 
+var elem = document.getElementById("timer");
+var timerId;
 
 
 // Get username and room from URL
@@ -15,10 +18,12 @@ const socket = io();
 
 
 
-   
+
 //boolean check if game has started
 var hasGameStarted = false;
 var category;
+var difficulty;
+var type;
 //Data to send to other clients after first person starts the game
 var receivedGameData;
 var myPoints = 0;
@@ -116,6 +121,10 @@ function htmlDecode(value) {
 var listView = document.createElement('div');
 listView.className = "questionlist";
 function startGame(){
+    inputRoundLength = parseInt(document.getElementById("selectRoundTime").value);
+    roundTime = inputRoundLength *1000;
+    timeLeft = inputRoundLength-1;
+
 console.log(document.getElementById("questionsAmount").value);
 document.getElementById("mypoints").innerText = "My points: " + myPoints
    
@@ -129,8 +138,20 @@ if( document.getElementById("categories").value != "any" && hasGameStarted == fa
 else{
    category = "";
 }
+if( document.getElementById("difficulty").value != "any" && hasGameStarted == false){
+    difficulty  = "&difficulty="+ document.getElementById("difficulty").value;
+} 
+else{
+   difficulty = "";
+}
+if( document.getElementById("type").value != "any" && hasGameStarted == false){
+    type = "&type="+ document.getElementById("type").value;
+} 
+else{
+   type= "";
+}
 console.log(category) ;
-$.getJSON("https://opentdb.com/api.php?amount="+document.getElementById("questionsAmount").value+category+"", function(result){
+$.getJSON("https://opentdb.com/api.php?amount="+document.getElementById("questionsAmount").value+category+difficulty+type+"", function(result){
 
 console.log(hasGameStarted);  
 if(hasGameStarted==false){
@@ -173,12 +194,15 @@ console.log("game hasnt started sent startgameforall");
 
 console.log(data);
 //loop through questions
-var timerId = setInterval(countdown, 1000);
+
+ timerId = setInterval(countdown, 1000);
+
+
 for (let i=0; i<data.length+1; i++) {
-    setTimeout(() => {addQuestion(i);}, 20000*i);
+    setTimeout(() => {addQuestion(i);}, roundTime*i);
+   
 }
-
-
+setTimeout(()=>{endGame();},roundTime*(data.length));
 
 
 
@@ -190,11 +214,11 @@ for (let i=0; i<data.length+1; i++) {
 
 
 function countdown() {
-    if(timeLeft == 15){
+    if(timeLeft == 25 || timeLeft == 15 || timeLeft == 5) {
         document.getElementById("yourAnswer").innerText ="";
         }
     if (timeLeft == 0) {
-      timeLeft =19;
+      timeLeft =(roundTime/1000)-1;
     }
     
     else {
@@ -222,7 +246,7 @@ function addQuestion(i){
     listViewItem.setAttribute("multiple","");
     var title =document.createElement("h4");
     try{
-    title.innerHTML = htmlDecode((i+1)+". "+data[i].question);
+    title.innerHTML = htmlDecode((i+1)+"/"+data.length+". "+data[i].question);
     }catch{
         return;
     }  
@@ -232,6 +256,7 @@ function addQuestion(i){
    //insert correct answer and insert
     var correct = document.createElement("option");
     correct.value = "correct";
+    correct.className = "questionSelect"
     correct.innerHTML = htmlDecode(data[i].correct_answer);
     
     randomInsert = getRandomInt(0,data[i].incorrect_answers.length);
@@ -241,13 +266,14 @@ function addQuestion(i){
             
     var incorrect= document.createElement("option");
     incorrect.value = "incorrect";
+    incorrect.className = "questionSelect"
     incorrect.innerHTML = htmlDecode(data[i].incorrect_answers[j]);
     listViewItem.appendChild(incorrect);
     if(j== randomInsert){
         listViewItem.appendChild(correct);
     }
     }
-
+    
     //add questions and answers to final list
     listView.appendChild(listViewItem);
     
@@ -306,6 +332,14 @@ function addPoints(){
 
         
 
+    }
+
+
+    function endGame(){
+        clearInterval(timerId);
+        elem.innerText="";
+        document.getElementById("gameHasEnded").innerText = "Game has Ended";
+        document.getElementById("gameHasEnded").style.color = "blue";
     }
 
          document.getElementById("sendMessage").addEventListener("keyup", function(event) {

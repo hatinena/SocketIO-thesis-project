@@ -76,7 +76,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 #id_questions option{
   font-size: 1.2em;
-  padding: 10px 0;
+  padding: 10px;
   text-align: center;
   margin-right: 20px;
   display: inline-block;
@@ -116,4 +116,11 @@ font-weight:bold;
 #sendMessage{
   padding:10px;
   width:100%;
+}
+#yourAnswer{
+  height: 150px;
+}
+
+#questionSelect{
+  padding: 50px;
 }

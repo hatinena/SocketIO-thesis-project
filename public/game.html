@@ -39,12 +39,37 @@
 		<option value="32">Entertainment: Cartoon &amp; Animations</option>
 	</select>
 
+	<select id="difficulty" >
+		<option value="any">Any Difficulty</option>
+		<option value="easy">Easy</option>
+		<option value="medium">Medium</option>
+		<option value="hard">Hard</option>
+	</select>
+
+
+	<select id="type" >
+		<option value="any">Any Type</option>
+		<option value="multiple">Multiple Choice</option>
+		<option value="boolean">True / False</option>
+	</select>
+
+	<select id="selectRoundTime">
+		<option value ="10">10</option>
+		<option value ="20">20</option>
+		<option value ="30">30</option>
+
+
+	</select>
+
+
+
 	<button id="startbtn" onclick="startGame()">Start Game</button>
 	<button onclick="resetGame()">Reset Game</button>
 
 	<div id="questionList"></div>
 
 	<h1 id="yourAnswer"> </h1>
+	<h1 id="gameHasEnded"></h1>
 
 
 
