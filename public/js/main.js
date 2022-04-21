@@ -79,9 +79,10 @@ socket.on('userList', userList=>{
       }
     
     for (const property in userList) {
-      var node = document.createElement("li");
+      var node = document.createElement("div");
       var userPoints =  String(`${property} Points:  ${userList[property]}`);
       var textnode = document.createTextNode(userPoints);
+      node.classList.add("textnode");
       node.appendChild(textnode);
       document.getElementById("users").appendChild(node);
 
@@ -181,7 +182,6 @@ if(hasGameStarted == true){
     
 
 
-    
  
     
 //if game has already started, do not overwrite the questions on the server

@@ -67,6 +67,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
   height: 44px;
   border: none;
   overflow: hidden;
+  background-color: #1496BB;
 }
 #id_questions:-moz-focus-inner {
   border: 0;
@@ -76,7 +77,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 #id_questions option{
   font-size: 1.2em;
-  padding: 10px;
+  padding: 5px;
   text-align: center;
   margin-right: 20px;
   display: inline-block;
@@ -84,6 +85,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
   border:black solid 1px;
   border-radius: 5px;
   color: black;
+  border:1px solid white;
+  background-color: #ffecec;;
+  align-self:center;
 }
 .chatList{
   list-style-type: none;
@@ -123,4 +127,77 @@ font-weight:bold;
 
 #questionSelect{
   padding: 50px;
+}
+
+body{
+  background-color:#1496BB;
+}
+.quizheading{
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color:#ffecec;
+  text-align:center;
+
+}
+
+label,p,.textnode{
+  text-align:center;
+  color:#ffecec;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+
+}
+
+#timer{
+  text-align:center;
+  color:black;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size:x-large;
+
+}
+
+.btn{
+  background-color:#ffecec;
+  color:black;
+  height:25px;
+  border-radius:4px;
+  border:1px solid #ffecec;
+}
+
+input, select{
+margin-top:10px; 
+height:25px;
+border-radius:4px;
+border:1px solid #ffecec;
+width:100%;
+}
+
+textarea:focus, input:focus, select:focus{
+  outline: none;
+}
+
+button{
+  width:49%;
+  height:25px;
+  border-radius:4px;
+  border:1px solid #ffecec;
+  background-color:#ffecec;
+  color:black;
+}
+
+option{
+  border:5px solid white;
+  background-color: #ffecec;;
+}
+
+h4{
+
+  color:#ffecec;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size:x-large;
+
+}
+
+h1{
+  color:#ffecec;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size:x-large;
 }

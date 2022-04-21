@@ -4,10 +4,9 @@
 
 
 
+	<div style="width:25%;margin:0 auto;">
+	<h1 class="quizheading">Quiz Game</h1>
 
-
-	<h1>Quiz Game</h1>
-	<ul id="users"></ul>
 	<p>How many questions? 1 - 50</p>
 	<input id="questionsAmount" max="50">
 	<p>Select category</p>
@@ -65,7 +64,9 @@
 	<br>
 	<br><button id="startbtn" onclick="startGame()">Start Game</button>
 	<button onclick="resetGame()">Reset Game</button>
+</div>
 
+<div style="width:25%;margin:0 auto;">
 	<div id="questionList"></div>
 
 	<h1 id="yourAnswer"> </h1>
@@ -78,11 +79,16 @@
 
 	
 
-	<h1 id="mypoints"></h1>
+	<div><h1 id="mypoints" style="margin-bottom:20px;"></h1><div id="timer"></div></div>
 
 	<div id="users"> </div>
 
-	<div id="timer"></div>
+	
+	<ul id="users"></ul>
+
+</div>
+
+
 
 
 
