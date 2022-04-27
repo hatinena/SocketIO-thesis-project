@@ -23,7 +23,7 @@ var type;
 var receivedGameData;
 var myPoints = 0;
 //receive if game has started
-gameran = false;
+isGameRunning = false;
 reloaded = false;
 
 socket.on("refresh", (refresh) => {
@@ -47,10 +47,10 @@ socket.on("sendHasGameStarted", (GameStarted) => {
 });
 
 socket.on("startGameAll", function (data) {
-  if (gameran == false) {
+  if (isGameRunning == false) {
     startGame();
   }
-  gameran = true;
+  isGameRunning = true;
 });
 
 socket.on("message", (message) => {
@@ -176,7 +176,7 @@ function startGame() {
         document.getElementById("startbtn").disabled = true;
       }
       //tell server that game has started
-      gameran = true;
+      isGameRunning = true;
       socket.emit("startGameForAll", "startgame");
       console.log("game hasnt started sent startgameforall");
 
@@ -236,7 +236,7 @@ function addQuestion(i) {
   listView.appendChild(title);
 
   //TODO make random order of answers
-  //insert correct answer and insert
+  //correct
   var correct = document.createElement("option");
   correct.value = "correct";
   correct.className = "questionSelect";
@@ -244,7 +244,7 @@ function addQuestion(i) {
 
   randomInsert = getRandomInt(0, data[i].incorrect_answers.length);
 
-  //loop through wrong answers and insert
+  //loop through wrong answers and insert correct anser in random index
   for (let j = 0; j < data[i].incorrect_answers.length; j++) {
     var incorrect = document.createElement("option");
     incorrect.value = "incorrect";
